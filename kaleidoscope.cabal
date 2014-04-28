@@ -1,0 +1,50 @@
+name:                kaleidoscope
+version:             0.1.0.0
+synopsis:            Haskell Kaleidoscope tutorial
+description:         Port of the Kaleidoscope tutorial for Haskell and LLVM
+homepage:            https://github.com/sdiehl/kaleidoscope
+license:             MIT
+license-file:        LICENSE-MIT
+author:              Stephen Diehl
+maintainer:          stephen.m.diehl@gmail.com
+copyright:           2012 Stephen Diehl
+Category:            Compilers
+build-type:          Simple
+cabal-version:       >=1.10
+Bug-Reports:         https://github.com/sdiehl/kaleidoscope/issues
+
+Flag Tutorial
+  Description: Compile with pandoc preprocessor
+  Default:     False
+
+Source-Repository head
+    Type: git
+    Location: git@github.com:sdiehl/kaleidoscope.git
+
+library 
+  default-language:    Haskell2010
+  build-depends:       
+      base                 >= 4.6 && <4.7
+    , haskeline            == 0.7.1.2 
+    , llvm-general         == 3.4.1.0
+    , llvm-general-pure    == 3.4.1.0
+    , mtl
+    , transformers
+
+-- Enable only if you want to compile the tutorial text itself.
+
+executable preprocess
+  main-is: preprocessor.hs
+  if flag(tutorial)
+      buildable: True
+      default-language:    Haskell2010
+      build-depends:       
+          base                 >= 4.6 && <4.7
+        , pandoc               >= 1.12
+        , haskeline            == 0.7.1.2 
+        , llvm-general         == 3.4.1.0
+        , llvm-general-pure    == 3.4.1.0
+        , mtl
+        , transformers
+  else
+      buildable: False
