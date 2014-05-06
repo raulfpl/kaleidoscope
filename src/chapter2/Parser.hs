@@ -38,7 +38,7 @@ function :: Parser Expr
 function = do
     reserved "def"
     name <- identifier
-    args <-parens $ many variable
+    args <- parens $ many variable
     body <- expr
     return $ Function name args body
 
@@ -56,16 +56,16 @@ call = do
     return $ Call name args
 
 factor :: Parser Expr
-factor =  try floating
-      <|> try int
-      <|> try extern
-      <|> try function
-      <|> try call
-      <|> variable
-      <|> parens expr
+factor = try floating
+    <|> try int
+    <|> try extern
+    <|> try function
+    <|> try call
+    <|> variable
+    <|> parens expr
 
 defn :: Parser Expr
-defn =  try extern
+defn = try extern
     <|> try function
     <|> expr
 
@@ -83,4 +83,7 @@ toplevel = many $ do
     return def
 
 parseExpr :: String -> Either ParseError Expr
-parseExpr s = parse (contents toplevel) "<stdin>" s
+parseExpr s = parse (contents expr) "<stdin>" s
+
+parseToplevel :: String -> Either ParseError [Expr]
+parseToplevel s = parse (contents toplevel) "<stdin>" s

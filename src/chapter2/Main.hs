@@ -12,10 +12,11 @@ process line = do
         Left err -> print err
         Right ex -> mapM_ print ex
 
-main :: IO()
+main :: IO ()
 main = runInputT defaultSettings loop
-    where loop = do
+    where
+    loop = do
         minput <- getInputLine "ready> "
         case minput of
-            Nothing -> output "Goodbye."
-            Just input -> (liftIO $ process input) >> loop
+            Nothing -> outputStrLn "Goodbye."
+            Just input -> liftIO $ process input >> loop
